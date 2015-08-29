@@ -120,6 +120,7 @@ class SudokuTestCase(TestCase):
 
     @raises(ValueError)
     def loads_test4(self):
+        # only sudoku, not list of sudoku
         Sudoku.loads("""
             [
                 [1, 8, 7, 4, 9, 3, 6, 5, 2],
