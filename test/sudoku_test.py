@@ -175,7 +175,7 @@ class SudokuPageInfoTestCase(TestCase):
             [3, 2, 5, 8, 6, 7, 9, 4, 1]
         ])
         self.sudoku_info = SudokuPageInfo(
-            sudoku, "header" * 3, "footer" * 3, show_page_num=True)
+            sudoku, "header" * 3, "footer" * 3, show_page_number=True)
 
     def sudoku_test1(self):
         assert(self.sudoku_info.sudoku.mat == [
