@@ -1,5 +1,8 @@
 from sys import path
 path.append('src')
+from sudoku import Sudoku, SudokuPageInfo
+from unittest import TestCase
+from nose.tools import raises
 
 
 class SudokuTestCase(TestCase):
@@ -66,19 +69,20 @@ class SudokuTestCase(TestCase):
                 [9, 3, 8, 7, 5, 6, 2, 4, 1]
             ]
         ]
-        """) == [Sudoku([
-            [1, 8, 7, 4, 9, 3, 6, 5, 2],
-            [6, 4, 3, 1, 2, 5, 8, 9, 7],
-            [2, 5, 9, 7, 8, 6, 3, 1, 4],
+        """) == [
+            Sudoku([
+                [1, 8, 7, 4, 9, 3, 6, 5, 2],
+                [6, 4, 3, 1, 2, 5, 8, 9, 7],
+                [2, 5, 9, 7, 8, 6, 3, 1, 4],
 
-            [7, 1, 4, 2, 3, 8, 5, 6, 9],
-            [9, 6, 8, 5, 7, 1, 4, 2, 3],
-            [5, 3, 2, 6, 4, 9, 1, 7, 8],
+                [7, 1, 4, 2, 3, 8, 5, 6, 9],
+                [9, 6, 8, 5, 7, 1, 4, 2, 3],
+                [5, 3, 2, 6, 4, 9, 1, 7, 8],
 
-            [8, 7, 6, 9, 1, 4, 2, 3, 5],
-            [4, 9, 1, 3, 5, 2, 7, 8, 6],
-            [3, 2, 5, 8, 6, 7, 9, 4, 1]
-        ]),
+                [8, 7, 6, 9, 1, 4, 2, 3, 5],
+                [4, 9, 1, 3, 5, 2, 7, 8, 6],
+                [3, 2, 5, 8, 6, 7, 9, 4, 1]
+                ]),
             Sudoku([
                 [8, 4, 6, 9, 2, 7, 5, 1, 3],
                 [3, 5, 2, 8, 4, 1, 9, 7, 6],
@@ -91,7 +95,7 @@ class SudokuTestCase(TestCase):
                 [4, 2, 7, 1, 8, 3, 6, 5, 9],
                 [5, 6, 1, 4, 9, 2, 8, 3, 7],
                 [9, 3, 8, 7, 5, 6, 2, 4, 1]
-            ])
+                ])
         ])
 
     @raises(ValueError)
@@ -99,7 +103,7 @@ class SudokuTestCase(TestCase):
         Sudoku.loads("""
         [
             [
-                [a, 8, 7, 4, 9, 3, 6, 5, 2],
+                ["a", 8, 7, 4, 9, 3, 6, 5, 2],
                 [6, 4, 3, 1, 2, 5, 8, 9, 7],
                 [2, 5, 9, 7, 8, 6, 3, 1, 4],
 
@@ -134,10 +138,10 @@ class SudokuTestCase(TestCase):
 
     @raises(ValueError)
     def loads_test5(self):
-        Sudoku.loads("abc")
+        Sudoku.loads('"abc"')
 
     def mat_test(self):
-        assert(Sudoku([
+        m = [
             [1, 8, 7, 4, 9, 3, 6, 5, 2],
             [6, 4, 3, 1, 2, 5, 8, 9, 7],
             [2, 5, 9, 7, 8, 6, 3, 1, 4],
@@ -149,7 +153,14 @@ class SudokuTestCase(TestCase):
             [8, 7, 6, 9, 1, 4, 2, 3, 5],
             [4, 9, 1, 3, 5, 2, 7, 8, 6],
             [3, 2, 5, 8, 6, 7, 9, 4, 1]
-        ]).mat ==
+        ]
+        assert(Sudoku(m).mat == m)
+
+
+class SudokuPageInfoTestCase(TestCase):
+
+    def setUp(self):
+        sudoku = Sudoku([
             [1, 8, 7, 4, 9, 3, 6, 5, 2],
             [6, 4, 3, 1, 2, 5, 8, 9, 7],
             [2, 5, 9, 7, 8, 6, 3, 1, 4],
@@ -160,16 +171,31 @@ class SudokuTestCase(TestCase):
 
             [8, 7, 6, 9, 1, 4, 2, 3, 5],
             [4, 9, 1, 3, 5, 2, 7, 8, 6],
-            [3, 2, 5, 8, 6, 7, 9, 4, 1])
+            [3, 2, 5, 8, 6, 7, 9, 4, 1]
+        ])
+        self.sudoku_info = SudokuPageInfo(
+            sudoku, "header" * 3, "footer" * 3, show_page_num=True)
 
-# * Sudoku
-#   * Sudoku.load(f)
-#     get list of Sudoku
-#   * Sudoku.mat
-# * SudokuPageInfo
-#   * sudoku
-#   * header
-#   * footer
-#   * show_page_num
-#   * get_pdf(canvas)
-# * get_pdf_from_sudoku([sudoku], in_filename, out_filename)
+    def sudoku_test1(self):
+        assert(self.sudoku_info.sudoku.mat == [
+            [1, 8, 7, 4, 9, 3, 6, 5, 2],
+            [6, 4, 3, 1, 2, 5, 8, 9, 7],
+            [2, 5, 9, 7, 8, 6, 3, 1, 4],
+
+            [7, 1, 4, 2, 3, 8, 5, 6, 9],
+            [9, 6, 8, 5, 7, 1, 4, 2, 3],
+            [5, 3, 2, 6, 4, 9, 1, 7, 8],
+
+            [8, 7, 6, 9, 1, 4, 2, 3, 5],
+            [4, 9, 1, 3, 5, 2, 7, 8, 6],
+            [3, 2, 5, 8, 6, 7, 9, 4, 1]
+        ])
+
+    def header_test(self):
+        assert(self.sudoku_info.header == "header" * 3)
+
+    def footer_test(self):
+        assert(self.sudoku_info.footer == "footer" * 3)
+
+    def show_page_number_test(self):
+        assert(self.sudoku_info.show_page_number is True)
