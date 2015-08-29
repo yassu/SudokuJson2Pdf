@@ -23,8 +23,6 @@ class Sudoku(object):
     @staticmethod
     def loads(text):
         matrixes = _json_loads(text)
-        print(matrixes)
-        print([Sudoku(mat)._mat for mat in matrixes])
         return [Sudoku(mat) for mat in matrixes]
 
     def __eq__(self, other):
