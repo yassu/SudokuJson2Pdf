@@ -13,7 +13,7 @@ class Sudoku(object):
             if not isinstance(row, list):
                 raise ValueError("row should be list.")
             for col in row:
-                if not isinstance(col, int) or (col <= 0 and col >= 10):
+                if not isinstance(col, int) or (col <= 0 or col >= 10):
                     raise ValueError("Illegal Value: {}".format(col))
 
     @property
