@@ -25,6 +25,10 @@ class Sudoku(object):
         matrixes = _json_loads(text)
         return [Sudoku(mat) for mat in matrixes]
 
+    @staticmethod
+    def load(f):
+        return Sudoku.loads(f.read())
+
     def __eq__(self, other):
         return self.mat == other.mat
 
