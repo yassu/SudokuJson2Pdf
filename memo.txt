@@ -14,5 +14,5 @@
   * sudoku
   * header
   * footer
-  * get_pdf(canvas)
+  * write_pdf(canvas)
 * get_pdf_from_sudoku([sudoku], in_filename, out_filename)
