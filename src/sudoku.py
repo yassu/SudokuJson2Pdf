@@ -63,17 +63,15 @@ class SudokuPageInfo(object):
     def show_page_number(self):
         return self._show_page_number
 
-    def write_pdf(self, canvas, offset=SUDOKU_PDF_OFFSET):
-        xlist = [offset[0] + j*(2*XPAD + FONT_SIZE) for j in range(0, 9 + 1)]
-        ylist = [offset[1] + j*(2*YPAD + FONT_SIZE) for j in range(0, 9 + 1)]
+    def write_pdf(self, canvas):
+        xlist = [j*(2*XPAD + FONT_SIZE) for j in range(0, 9 + 1)]
+        ylist = [j*(2*YPAD + FONT_SIZE) for j in range(0, 9 + 1)]
         canvas.grid(xlist, ylist)
         for x in range(0, 9):
             for y in range(0, 9):
                 canvas.drawString(
-                    offset[0] + (FONT_SIZE + XPAD)//2
-                        + x*(2*SUDOKU_XPAD + FONT_SIZE) - 4,
-                    offset[1] + FONT_SIZE
-                        + y*(2*SUDOKU_YPAD + FONT_SIZE),
+                    (FONT_SIZE + XPAD)//2 + x*(2*SUDOKU_XPAD + FONT_SIZE) - 4,
+                    FONT_SIZE + y*(2*SUDOKU_YPAD + FONT_SIZE),
                     str(self.sudoku.mat[x][y])
                     )
 
@@ -97,5 +95,5 @@ if __name__ == '__main__':
     c = canvas.Canvas("sample.pdf", bottomup=False)
     XPAD, YPAD = (5, 5)
     c.setFont("Helvetica", FONT_SIZE)
-    sudoku_info.write_pdf(c, offset=(100, 100))
+    sudoku_info.write_pdf(c)
     c.save()
