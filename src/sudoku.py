@@ -4,11 +4,11 @@ from reportlab.pdfgen import canvas
 
 SUDOKU_SIZE = (9, 9)
 CELL_SIZE = (3, 3)
-FONT_SIZE = 30
-SUDOKU_PDF_OFFSET = (50, 50)
+SUDOKU_FONT_SIZE = 30
+SUDOKU_PDF_OFFSET = (110, 200)
 SUDOKU_XPAD, SUDOKU_YPAD = (5, 5)
-DIFFERENCE_FOR_NUMBERS = ((FONT_SIZE + SUDOKU_XPAD)//2,
-                          (FONT_SIZE + SUDOKU_YPAD)//2)
+DIFFERENCE_FOR_NUMBERS = ((SUDOKU_FONT_SIZE + SUDOKU_XPAD)//2,
+                          (SUDOKU_FONT_SIZE + SUDOKU_YPAD)//2)
 
 class Sudoku(object):
 
@@ -40,11 +40,10 @@ class Sudoku(object):
 
 class SudokuPageInfo(object):
 
-    def __init__(self, sudoku, header, footer,
+    def __init__(self, sudoku, title,
             show_page_number=False, page_num=None):
         self._sudoku = sudoku
-        self._header = header
-        self._footer = footer
+        self._title = title
         self._show_page_number = show_page_number
 
     @property
@@ -52,26 +51,29 @@ class SudokuPageInfo(object):
         return self._sudoku
 
     @property
-    def header(self):
-        return self._header
-
-    @property
-    def footer(self):
-        return self._footer
+    def title(self):
+        return self._title
 
     @property
     def show_page_number(self):
         return self._show_page_number
 
     def write_pdf(self, canvas):
-        xlist = [j*(2*XPAD + FONT_SIZE) for j in range(0, 9 + 1)]
-        ylist = [j*(2*YPAD + FONT_SIZE) for j in range(0, 9 + 1)]
+        c.setFont("Helvetica", SUDOKU_FONT_SIZE)
+        canvas.drawString(50, 50, self.title)
+
+        c.setFont("Helvetica", SUDOKU_FONT_SIZE)
+        sudoku_offset = SUDOKU_PDF_OFFSET
+        xlist = [sudoku_offset[0] + j*(2*SUDOKU_XPAD + SUDOKU_FONT_SIZE) for j in range(0, 9 + 1)]
+        ylist = [sudoku_offset[1] + j*(2*SUDOKU_YPAD + SUDOKU_FONT_SIZE) for j in range(0, 9 + 1)]
         canvas.grid(xlist, ylist)
         for x in range(0, 9):
             for y in range(0, 9):
                 canvas.drawString(
-                    (FONT_SIZE + XPAD)//2 + x*(2*SUDOKU_XPAD + FONT_SIZE) - 4,
-                    FONT_SIZE + y*(2*SUDOKU_YPAD + FONT_SIZE),
+                    sudoku_offset[0] + (SUDOKU_FONT_SIZE + SUDOKU_XPAD)//2
+                        + x*(2*SUDOKU_XPAD + SUDOKU_FONT_SIZE) - 4,
+                    sudoku_offset[1] + SUDOKU_FONT_SIZE
+                        + y*(2*SUDOKU_YPAD + SUDOKU_FONT_SIZE),
                     str(self.sudoku.mat[x][y])
                     )
 
@@ -89,11 +91,9 @@ if __name__ == '__main__':
             [4, 9, 1, 3, 5, 2, 7, 8, 6],
             [3, 2, 5, 8, 6, 7, 9, 4, 1]
         ])
-    sudoku_info = SudokuPageInfo(sudoku, 'header', 'footer',
+    sudoku_info = SudokuPageInfo(sudoku, 'Problem 1',
         show_page_number=True, page_num=3)
 
     c = canvas.Canvas("sample.pdf", bottomup=False)
-    XPAD, YPAD = (5, 5)
-    c.setFont("Helvetica", FONT_SIZE)
     sudoku_info.write_pdf(c)
     c.save()
