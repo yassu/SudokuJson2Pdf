@@ -3,6 +3,7 @@ from json import load  as _json_load
 from reportlab.pdfgen import canvas
 import os.path
 
+UNKNOWN = '.'
 SUDOKU_SIZE = (9, 9)
 CELL_SIZE = (3, 3)
 SUDOKU_FONT_SIZE = 30
@@ -20,7 +21,8 @@ class Sudoku(object):
             if not isinstance(row, list):
                 raise ValueError("row should be list.")
             for col in row:
-                if not isinstance(col, int) or (col <= 0 or col >= 10):
+                if (not isinstance(col, int) or (col <= 0 or col >= 10)) and \
+                        col != UNKNOWN:
                     raise ValueError("Illegal Value: {}".format(col))
 
     @property
@@ -75,13 +77,14 @@ class SudokuPageInfo(object):
         canvas.grid(xlist, ylist)
         for x in range(0, 9):
             for y in range(0, 9):
-                canvas.drawString(
-                    sudoku_offset[0] + (SUDOKU_FONT_SIZE + SUDOKU_XPAD)//2
-                        + x*(2*SUDOKU_XPAD + SUDOKU_FONT_SIZE) - 4,
-                    sudoku_offset[1] + SUDOKU_FONT_SIZE
-                        + y*(2*SUDOKU_YPAD + SUDOKU_FONT_SIZE),
-                    str(self.sudoku.mat[y][x])
-                    )
+                if self.sudoku.mat[y][x] != UNKNOWN:
+                    canvas.drawString(
+                        sudoku_offset[0] + (SUDOKU_FONT_SIZE + SUDOKU_XPAD)//2
+                            + x*(2*SUDOKU_XPAD + SUDOKU_FONT_SIZE) - 4,
+                        sudoku_offset[1] + SUDOKU_FONT_SIZE
+                            + y*(2*SUDOKU_YPAD + SUDOKU_FONT_SIZE),
+                        str(self.sudoku.mat[y][x])
+                        )
 
         if self.show_page_number:
             canvas.setFont("Helvetica", 10)
