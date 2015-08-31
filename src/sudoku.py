@@ -45,6 +45,7 @@ class SudokuPageInfo(object):
         self._sudoku = sudoku
         self._title = title
         self._show_page_number = show_page_number
+        self._page_number = page_number
 
     @property
     def sudoku(self):
@@ -57,6 +58,10 @@ class SudokuPageInfo(object):
     @property
     def show_page_number(self):
         return self._show_page_number
+
+    @property
+    def page_number(self):
+        return self._page_number
 
     def write_pdf(self, canvas):
         c.setFont("Helvetica", 70)
@@ -79,29 +84,30 @@ class SudokuPageInfo(object):
 
         if self.show_page_number:
             canvas.setFont("Helvetica", 10)
-            canvas.drawString(280, 800, '007')
+            canvas.drawString(280, 800, str(self.page_number))
 
         # draw a cell
         canvas.setLineWidth(3)
         canvas.grid(xlist[::3], ylist[::3])
 
 if __name__ == '__main__':
-    sudoku = Sudoku([
-            [1, 8, 7, 4, 9, 3, 6, 5, 2],
-            [6, 4, 3, 1, 2, 5, 8, 9, 7],
-            [2, 5, 9, 7, 8, 6, 3, 1, 4],
-
-            [7, 1, 4, 2, 3, 8, 5, 6, 9],
-            [9, 6, 8, 5, 7, 1, 4, 2, 3],
-            [5, 3, 2, 6, 4, 9, 1, 7, 8],
-
-            [8, 7, 6, 9, 1, 4, 2, 3, 5],
-            [4, 9, 1, 3, 5, 2, 7, 8, 6],
-            [3, 2, 5, 8, 6, 7, 9, 4, 1]
-        ])
-    sudoku_info = SudokuPageInfo(sudoku, 'Problem 1',
-        show_page_number=True, page_number=3)
-
+    import sys
+    filenames = sys.argv[1:]
     c = canvas.Canvas("sample.pdf", bottomup=False)
-    sudoku_info.write_pdf(c)
+
+    if len(filenames) == 1: # case: only problem files
+        json_filename = filenames[0]
+        with open(json_filename) as f:
+            sudokus = Sudoku.load(f)
+
+        page_infos = []
+        for j, sudoku in enumerate(sudokus):
+            page_infos.append(SudokuPageInfo(sudoku, 'Problem {}'.format(j+1),
+            show_page_number=True, page_number= j + 1))
+
+        for i, page_info in enumerate(page_infos):
+            page_info.write_pdf(c)
+            if i != len(page_infos) - 1:
+                c.showPage()
+
     c.save()
