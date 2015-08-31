@@ -67,10 +67,10 @@ class SudokuPageInfo(object):
         return self._page_number
 
     def write_pdf(self, canvas):
-        c.setFont("Helvetica", 70)
+        canvas.setFont("Helvetica", 70)
         canvas.drawString(70, 70, self.title)
 
-        c.setFont("Helvetica", SUDOKU_FONT_SIZE)
+        canvas.setFont("Helvetica", SUDOKU_FONT_SIZE)
         sudoku_offset = SUDOKU_PDF_OFFSET
         xlist = [sudoku_offset[0] + j*(2*SUDOKU_XPAD + SUDOKU_FONT_SIZE) for j in range(0, 9 + 1)]
         ylist = [sudoku_offset[1] + j*(2*SUDOKU_YPAD + SUDOKU_FONT_SIZE) for j in range(0, 9 + 1)]
@@ -94,7 +94,7 @@ class SudokuPageInfo(object):
         canvas.setLineWidth(3)
         canvas.grid(xlist[::3], ylist[::3])
 
-if __name__ == '__main__':
+def main():
     import sys
     filenames = sys.argv[1:]
     c = canvas.Canvas(os.path.splitext(filenames[0])[0] + '.pdf', bottomup=False)
@@ -115,3 +115,6 @@ if __name__ == '__main__':
                 c.showPage()
 
     c.save()
+
+if __name__ == '__main__':
+    main()
