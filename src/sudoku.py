@@ -81,6 +81,10 @@ class SudokuPageInfo(object):
             canvas.setFont("Helvetica", 10)
             canvas.drawString(280, 800, '007')
 
+        # draw a cell
+        canvas.setLineWidth(3)
+        canvas.grid(xlist[::3], ylist[::3])
+
 if __name__ == '__main__':
     sudoku = Sudoku([
             [1, 8, 7, 4, 9, 3, 6, 5, 2],
