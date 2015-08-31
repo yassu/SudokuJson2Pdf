@@ -1,6 +1,7 @@
 from json import loads as _json_loads
 from json import load  as _json_load
 from reportlab.pdfgen import canvas
+import os.path
 
 SUDOKU_SIZE = (9, 9)
 CELL_SIZE = (3, 3)
@@ -93,7 +94,7 @@ class SudokuPageInfo(object):
 if __name__ == '__main__':
     import sys
     filenames = sys.argv[1:]
-    c = canvas.Canvas("sample.pdf", bottomup=False)
+    c = canvas.Canvas(os.path.splitext(filenames[0])[0] + '.pdf', bottomup=False)
 
     if len(filenames) == 1: # case: only problem files
         json_filename = filenames[0]
