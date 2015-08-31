@@ -41,7 +41,7 @@ class Sudoku(object):
 class SudokuPageInfo(object):
 
     def __init__(self, sudoku, title,
-            show_page_number=False, page_num=None):
+            show_page_number=False, page_number=None):
         self._sudoku = sudoku
         self._title = title
         self._show_page_number = show_page_number
@@ -59,8 +59,8 @@ class SudokuPageInfo(object):
         return self._show_page_number
 
     def write_pdf(self, canvas):
-        c.setFont("Helvetica", SUDOKU_FONT_SIZE)
-        canvas.drawString(50, 50, self.title)
+        c.setFont("Helvetica", 70)
+        canvas.drawString(70, 70, self.title)
 
         c.setFont("Helvetica", SUDOKU_FONT_SIZE)
         sudoku_offset = SUDOKU_PDF_OFFSET
@@ -74,8 +74,12 @@ class SudokuPageInfo(object):
                         + x*(2*SUDOKU_XPAD + SUDOKU_FONT_SIZE) - 4,
                     sudoku_offset[1] + SUDOKU_FONT_SIZE
                         + y*(2*SUDOKU_YPAD + SUDOKU_FONT_SIZE),
-                    str(self.sudoku.mat[x][y])
+                    str(self.sudoku.mat[y][x])
                     )
+
+        if self.show_page_number:
+            canvas.setFont("Helvetica", 10)
+            canvas.drawString(280, 800, '007')
 
 if __name__ == '__main__':
     sudoku = Sudoku([
@@ -92,7 +96,7 @@ if __name__ == '__main__':
             [3, 2, 5, 8, 6, 7, 9, 4, 1]
         ])
     sudoku_info = SudokuPageInfo(sudoku, 'Problem 1',
-        show_page_number=True, page_num=3)
+        show_page_number=True, page_number=3)
 
     c = canvas.Canvas("sample.pdf", bottomup=False)
     sudoku_info.write_pdf(c)
