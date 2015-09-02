@@ -29,7 +29,7 @@ setup(
     ],
     license=(
         'Released Under the Apache license\n'
-        'https://github.com/yassu/Visio2Img\n'
+        'https://github.com/yassu/SudokuJson2Pdf\n'
     ),
     scripts=['sudoku_json2pdf/sudoku2pdf.py'],
 )
