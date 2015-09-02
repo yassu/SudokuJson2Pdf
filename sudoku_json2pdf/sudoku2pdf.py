@@ -193,8 +193,6 @@ def main():
                                page_number=page_number))
             page_number += 1
 
-    print(page_infos)
-    print(out_filename)
     for i, page_info in enumerate(page_infos):
         page_info.write_pdf(c)
         if i != len(page_infos) - 1:
