@@ -109,10 +109,6 @@ def main():
             page_infos.append(SudokuPageInfo(sudoku, 'Problem {}'.format(j+1),
             show_page_number=True, page_number= j + 1))
 
-        for i, page_info in enumerate(page_infos):
-            page_info.write_pdf(c)
-            if i != len(page_infos) - 1:
-                c.showPage()
     elif len(filenames) == 2:
         prob_filename, ques_filename = filenames
         with open(prob_filename) as f:
@@ -133,10 +129,10 @@ def main():
                 show_page_number=True, page_number=page_number))
             page_number += 1
 
-        for i, page_info in enumerate(page_infos):
-            page_info.write_pdf(c)
-            if i != len(page_infos) - 1:
-                c.showPage()
+    for i, page_info in enumerate(page_infos):
+        page_info.write_pdf(c)
+        if i != len(page_infos) - 1:
+            c.showPage()
 
     c.save()
 
