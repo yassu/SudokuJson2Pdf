@@ -1,8 +1,9 @@
 from setuptools import setup
+import sudoku_json2pdf
 
 setup(
     name='SudokuJson2Pdf',
-    version='0.0.1',
+    version=sudoku_json2pdf.__version__,
     author='Yassu',
     packages=['sudoku_json2pdf'],
     description=(
