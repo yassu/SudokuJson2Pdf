@@ -120,6 +120,12 @@ def get_option_parser():
         dest='hidden_title',
         help="don't show title (default: Problem or Answer) "
         )
+    parser.add_option(
+        '-o', '--output',
+        action='store',
+        dest='out_filename',
+        help='output filename'
+        )
     return parser
 
 
@@ -129,11 +135,15 @@ def main():
     (options, filenames) = parser.parse_args()
     show_page_number = not(bool(options.hidden_page_number))
     show_title = not(bool(options.hidden_title))
+    if options.out_filename is None:
+        out_filename = (filenames[0])[0] + '.pdf'
+    else:
+        out_filename = options.out_filename
 
     problem_name = 'Problem'
     answer_name = 'Answer'
     c = canvas.Canvas(
-        os.path.splitext(filenames[0])[0] + '.pdf', bottomup=False)
+        out_filename, bottomup=False)
 
     if len(filenames) == 1:  # case: only problem files
         json_filename = filenames[0]
