@@ -1,6 +1,6 @@
-============
+================
 SudokuJson2Pdf
-============
+================
 
 This project provides a tool which convert json file of sudoku information to pdf.
 
@@ -19,7 +19,7 @@ Usage
   $ sudoku2pdf.py [option] question-filename [answer-filename]
 
 For example, if you want to output out.pdf from in.json with hidden title, you can obtain by
-  following code:
+following code:
 
 ::
 
