@@ -130,8 +130,15 @@ def get_option_parser():
         '--problem-name',
         action='store',
         dest='problem_name',
-        help=('problem_name is used in title of problem page: like this:'
-            'problem_name {page_number}')
+        help=('problem_name is used in title of problem page like this:'
+            'problem_name {number}')
+        )
+    parser.add_option(
+        '--answer-name',
+        action='store',
+        dest='answer_name',
+        help=('answer_name is used in title of answer page like this:'
+            'answer_name {number}')
         )
     return parser
 
@@ -152,7 +159,11 @@ def main():
     else:
         problem_name = options.problem_name
 
-    answer_name = 'Answer'
+    if options.answer_name is None:
+        answer_name = 'Answer'
+    else:
+        answer_name = options.answer_name
+
     c = canvas.Canvas(
         out_filename, bottomup=False)
 
