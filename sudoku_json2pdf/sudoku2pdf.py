@@ -103,6 +103,9 @@ class SudokuPageInfo(object):
 def main():
     import sys
     filenames = sys.argv[1:]
+
+    problem_name = 'Problem'
+    answer_name = 'Answer'
     c = canvas.Canvas(
         os.path.splitext(filenames[0])[0] + '.pdf', bottomup=False)
 
@@ -113,8 +116,9 @@ def main():
 
         page_infos = []
         for j, sudoku in enumerate(sudokus):
-            page_infos.append(SudokuPageInfo(sudoku, 'Problem {}'.format(j + 1),
-                                             show_page_number=True, page_number=j + 1))
+            page_infos.append(SudokuPageInfo(sudoku, '{} {}'.format(
+                 problem_name, j + 1),
+                 show_page_number=True, page_number=j + 1))
 
     elif len(filenames) == 2:
         prob_filename, ques_filename = filenames
@@ -127,12 +131,12 @@ def main():
         page_number = 1
         for j, sudoku in enumerate(prob_sudokus):
             page_infos.append(
-                SudokuPageInfo(sudoku, 'Problem {}'.format(j + 1),
+                SudokuPageInfo(sudoku, '{} {}'.format(problem_name, j + 1),
                                show_page_number=True, page_number=page_number))
             page_number += 1
         for j, sudoku in enumerate(ques_sudokus):
             page_infos.append(
-                SudokuPageInfo(sudoku, 'Answer {}'.format(j + 1),
+                SudokuPageInfo(sudoku, '{} {}'.format(answer_name, j + 1),
                                show_page_number=True, page_number=page_number))
             page_number += 1
 
