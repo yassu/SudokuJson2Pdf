@@ -1,7 +1,6 @@
 from __future__ import print_function
-import  sys
+import sys
 from json import loads as _json_loads
-from json import load as _json_load
 from reportlab.pdfgen import canvas
 import os.path
 from optparse import OptionParser
@@ -108,6 +107,7 @@ class SudokuPageInfo(object):
         canvas.setLineWidth(3)
         canvas.grid(xlist[::3], ylist[::3])
 
+
 def get_option_parser():
     parser = OptionParser()
     parser.add_option(
@@ -115,39 +115,41 @@ def get_option_parser():
         action='store_true',
         dest='hidden_page_number',
         help="don't show page number"
-            )
+    )
     parser.add_option(
         '--hidden-title',
         action='store_true',
         dest='hidden_title',
         help="don't show title (default: Problem or Answer) "
-        )
+    )
     parser.add_option(
         '-o', '--output',
         action='store',
         dest='out_filename',
         help='output filename'
-        )
+    )
     parser.add_option(
         '--problem-name',
         action='store',
         dest='problem_name',
         help=('problem_name is used in title of problem page like this:'
-            'problem_name {number}')
-        )
+              'problem_name {number}')
+    )
     parser.add_option(
         '--answer-name',
         action='store',
         dest='answer_name',
         help=('answer_name is used in title of answer page like this:'
-            'answer_name {number}')
-        )
+              'answer_name {number}')
+    )
     return parser
+
 
 def error(msg):
     """ this function is called in main function """
     print(msg, file=sys.stderr)
     sys.exit()
+
 
 def main():
     parser = get_option_parser()
@@ -189,10 +191,10 @@ def main():
         page_infos = []
         for j, sudoku in enumerate(sudokus):
             page_infos.append(SudokuPageInfo(sudoku, '{} {}'.format(
-                 problem_name, j + 1),
-                 show_page_number=show_page_number,
-                 show_title=show_title,
-                 page_number=j + 1))
+                problem_name, j + 1),
+                show_page_number=show_page_number,
+                show_title=show_title,
+                page_number=j + 1))
 
     elif len(filenames) == 2:
         prob_filename, ques_filename = filenames
