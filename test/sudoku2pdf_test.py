@@ -175,7 +175,7 @@ class SudokuPageInfoTestCase(TestCase):
             [3, 2, 5, 8, 6, 7, 9, 4, 1]
         ])
         self.sudoku_info = SudokuPageInfo(
-            sudoku, "title", show_page_number=True)
+            sudoku, "title", show_title=False, show_page_number=True)
 
     def sudoku_test1(self):
         assert(self.sudoku_info.sudoku.mat == [
@@ -191,6 +191,9 @@ class SudokuPageInfoTestCase(TestCase):
             [4, 9, 1, 3, 5, 2, 7, 8, 6],
             [3, 2, 5, 8, 6, 7, 9, 4, 1]
         ])
+
+    def show_title_test(self):
+        assert(self.sudoku_info.show_title is False)
 
     def title_test(self):
         assert(self.sudoku_info.title == "title")

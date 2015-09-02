@@ -47,8 +47,9 @@ class Sudoku(object):
 class SudokuPageInfo(object):
 
     def __init__(self, sudoku, title,
-                 show_page_number=False, page_number=None):
+                 show_page_number=False, page_number=None, show_title=True):
         self._sudoku = sudoku
+        self._show_title = show_title
         self._title = title
         self._show_page_number = show_page_number
         self._page_number = page_number
@@ -56,6 +57,10 @@ class SudokuPageInfo(object):
     @property
     def sudoku(self):
         return self._sudoku
+
+    @property
+    def show_title(self):
+        return self._show_title
 
     @property
     def title(self):
