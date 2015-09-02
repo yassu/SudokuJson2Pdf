@@ -1,5 +1,5 @@
 ============
-Sudoku2Pdf
+SudokuJson2Pdf
 ============
 
 This project provides a tool which convert json file of sudoku information to pdf.
