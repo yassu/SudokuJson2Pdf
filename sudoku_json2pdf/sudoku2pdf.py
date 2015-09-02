@@ -1,3 +1,5 @@
+from __future__ import print_function
+import  sys
 from json import loads as _json_loads
 from json import load as _json_load
 from reportlab.pdfgen import canvas
@@ -142,13 +144,20 @@ def get_option_parser():
         )
     return parser
 
+def error(msg):
+    """ this function is called in main function """
+    print(msg, file=sys.stderr)
+    sys.exit()
 
 def main():
-    import sys
     parser = get_option_parser()
     (options, filenames) = parser.parse_args()
     show_page_number = not(bool(options.hidden_page_number))
     show_title = not(bool(options.hidden_title))
+
+    if len(filenames) >= 3:
+        error('Filenames are too many.')
+
     if options.out_filename is None:
         out_filename = os.path.splitext(filenames[0])[0] + '.pdf'
     else:
@@ -169,8 +178,13 @@ def main():
 
     if len(filenames) == 1:  # case: only problem files
         json_filename = filenames[0]
-        with open(json_filename) as f:
-            sudokus = Sudoku.load(f)
+        try:
+            with open(json_filename) as f:
+                sudokus = Sudoku.load(f)
+        except FileNotFoundError:
+            error('Filename {} is not found.'.format(json_filename))
+        except ValueError:
+            error('Illegal format')
 
         page_infos = []
         for j, sudoku in enumerate(sudokus):
@@ -182,10 +196,21 @@ def main():
 
     elif len(filenames) == 2:
         prob_filename, ques_filename = filenames
-        with open(prob_filename) as f:
-            prob_sudokus = Sudoku.load(f)
-        with open(ques_filename) as f:
-            ques_sudokus = Sudoku.load(f)
+        try:
+            with open(prob_filename) as f:
+                prob_sudokus = Sudoku.load(f)
+        except FileNotFoundError:
+            error('Filename {} is not found.'.format(prob_filename))
+        except ValueError:
+            error('Illegal format')
+
+        try:
+            with open(ques_filename) as f:
+                ques_sudokus = Sudoku.load(f)
+        except FileNotFoundError:
+            error('Filename {} is not found'.format(ques_filename))
+        except ValueError:
+            error('Illegal format')
 
         page_infos = []
         page_number = 1
