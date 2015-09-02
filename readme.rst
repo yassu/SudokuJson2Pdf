@@ -8,6 +8,7 @@ Usage
 =======
 
 ::
+
   sudoku2pdf.py [option] question-filename [answer-filename]
 
 License
