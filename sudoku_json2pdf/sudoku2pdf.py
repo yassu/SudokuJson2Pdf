@@ -126,6 +126,13 @@ def get_option_parser():
         dest='out_filename',
         help='output filename'
         )
+    parser.add_option(
+        '--problem-name',
+        action='store',
+        dest='problem_name',
+        help=('problem_name is used in title of problem page: like this:'
+            'problem_name {page_number}')
+        )
     return parser
 
 
@@ -140,7 +147,11 @@ def main():
     else:
         out_filename = options.out_filename
 
-    problem_name = 'Problem'
+    if options.problem_name is None:
+        problem_name = 'Problem'
+    else:
+        problem_name = options.problem_name
+
     answer_name = 'Answer'
     c = canvas.Canvas(
         out_filename, bottomup=False)
@@ -182,6 +193,8 @@ def main():
                                page_number=page_number))
             page_number += 1
 
+    print(page_infos)
+    print(out_filename)
     for i, page_info in enumerate(page_infos):
         page_info.write_pdf(c)
         if i != len(page_infos) - 1:
