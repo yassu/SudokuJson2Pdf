@@ -113,6 +113,30 @@ def main():
             page_info.write_pdf(c)
             if i != len(page_infos) - 1:
                 c.showPage()
+    elif len(filenames) == 2:
+        prob_filename, ques_filename = filenames
+        with open(prob_filename) as f:
+            prob_sudokus = Sudoku.load(f)
+        with open(ques_filename) as f:
+            ques_sudokus = Sudoku.load(f)
+
+        page_infos = []
+        page_number = 1
+        for j, sudoku in enumerate(prob_sudokus):
+            page_infos.append(
+                SudokuPageInfo(sudoku, 'Problem {}'.format(j + 1),
+                show_page_number=True, page_number=page_number))
+            page_number += 1
+        for j, sudoku in enumerate(ques_sudokus):
+            page_infos.append(
+                SudokuPageInfo(sudoku, 'Answer {}'.format(j + 1),
+                show_page_number=True, page_number=page_number))
+            page_number += 1
+
+        for i, page_info in enumerate(page_infos):
+            page_info.write_pdf(c)
+            if i != len(page_infos) - 1:
+                c.showPage()
 
     c.save()
 
