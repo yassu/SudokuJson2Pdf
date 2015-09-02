@@ -1,6 +1,6 @@
 from sys import path
 path.append('src')
-from sudoku import Sudoku, SudokuPageInfo
+from sudoku2pdf import Sudoku, SudokuPageInfo
 from unittest import TestCase
 from nose.tools import raises
 
