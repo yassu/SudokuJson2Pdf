@@ -102,7 +102,9 @@ class SudokuPageInfo(object):
 
 def main():
     import sys
-    filenames = sys.argv[1:]
+    from optparse import OptionParser
+    parser = OptionParser()
+    (options, filenames) = parser.parse_args()
 
     problem_name = 'Problem'
     answer_name = 'Answer'
