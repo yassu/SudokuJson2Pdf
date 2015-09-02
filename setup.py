@@ -20,7 +20,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'License :: Freeware',
         'License :: OSI Approved :: Apache Software License',
-        'Intended Audience :: Developers'
+        'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     author_email='mathyassu@gmail.com',
