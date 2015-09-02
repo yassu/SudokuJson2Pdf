@@ -76,7 +76,8 @@ class SudokuPageInfo(object):
 
     def write_pdf(self, canvas):
         canvas.setFont("Helvetica", 70)
-        canvas.drawString(70, 70, self.title)
+        if self.show_title:
+            canvas.drawString(70, 70, self.title)
 
         canvas.setFont("Helvetica", SUDOKU_FONT_SIZE)
         sudoku_offset = SUDOKU_PDF_OFFSET
@@ -113,12 +114,12 @@ def get_option_parser():
         dest='hidden_page_number',
         help="don't show page number"
             )
-    # parser.add_option(
-    #     '--hidden-title',
-    #     action='store_true',
-    #     dest='hidden_title',
-    #     help="don't show title (default: Problem or Answer) "
-    #     )
+    parser.add_option(
+        '--hidden-title',
+        action='store_true',
+        dest='hidden_title',
+        help="don't show title (default: Problem or Answer) "
+        )
     return parser
 
 
@@ -126,8 +127,8 @@ def main():
     import sys
     parser = get_option_parser()
     (options, filenames) = parser.parse_args()
-    if options.hidden_page_number is True:
-        show_page_number = False
+    show_page_number = not(bool(options.hidden_page_number))
+    show_title = not(bool(options.hidden_title))
 
     problem_name = 'Problem'
     answer_name = 'Answer'
@@ -143,7 +144,9 @@ def main():
         for j, sudoku in enumerate(sudokus):
             page_infos.append(SudokuPageInfo(sudoku, '{} {}'.format(
                  problem_name, j + 1),
-                 show_page_number=show_page_number, page_number=j + 1))
+                 show_page_number=show_page_number,
+                 show_title=show_title,
+                 page_number=j + 1))
 
     elif len(filenames) == 2:
         prob_filename, ques_filename = filenames
@@ -157,12 +160,16 @@ def main():
         for j, sudoku in enumerate(prob_sudokus):
             page_infos.append(
                 SudokuPageInfo(sudoku, '{} {}'.format(problem_name, j + 1),
-                               show_page_number=show_page_number, page_number=page_number))
+                               show_page_number=show_page_number,
+                               show_title=show_title,
+                               page_number=page_number))
             page_number += 1
         for j, sudoku in enumerate(ques_sudokus):
             page_infos.append(
                 SudokuPageInfo(sudoku, '{} {}'.format(answer_name, j + 1),
-                               show_page_number=show_page_number, page_number=page_number))
+                               show_page_number=show_page_number,
+                               show_title=show_title,
+                               page_number=page_number))
             page_number += 1
 
     for i, page_info in enumerate(page_infos):
