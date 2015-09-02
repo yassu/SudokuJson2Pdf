@@ -143,7 +143,7 @@ def main():
     show_page_number = not(bool(options.hidden_page_number))
     show_title = not(bool(options.hidden_title))
     if options.out_filename is None:
-        out_filename = (filenames[0])[0] + '.pdf'
+        out_filename = os.path.splitext(filenames[0])[0] + '.pdf'
     else:
         out_filename = options.out_filename
 
