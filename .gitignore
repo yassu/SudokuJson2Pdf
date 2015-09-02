@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# virtualenv dir
+.virtualenvs
+
 # C extensions
 *.so
 
