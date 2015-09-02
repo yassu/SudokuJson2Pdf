@@ -51,6 +51,9 @@ coverage.xml
 *.mo
 *.pot
 
+# pip information
+_build/
+
 # Django stuff:
 *.log
 
