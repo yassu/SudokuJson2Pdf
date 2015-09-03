@@ -2,7 +2,7 @@
 SudokuJson2Pdf
 ================
 
-This project provides a tool which convert json file of sudoku information to pdf.
+This project provides a tool which converts json file of sudoku information to pdf.
 
 How to Install
 ================
