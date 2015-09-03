@@ -9,7 +9,7 @@ How to Install
 
 ::
 
-  $ python setup.py install
+  $ pip install SudokuJson2pdf
 
 Usage
 =======
