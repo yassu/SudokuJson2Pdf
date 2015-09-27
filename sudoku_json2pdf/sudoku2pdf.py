@@ -126,6 +126,11 @@ def get_entered_sudoku():
         in_text = delete_whitespace(str(in_text))
         if len(in_text) == 0:
             continue
+        elif not set(in_text).issubset(set(
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.'])):
+            raise ValueError('This line includes illegal values.')
+        elif len(in_text) != 9:
+            raise ValueError('length of entered text is not 0 or 9.')
         else:
             sudoku_mat.append([int(c) if c.isdigit() else c for c in in_text])
     return sudoku_mat
