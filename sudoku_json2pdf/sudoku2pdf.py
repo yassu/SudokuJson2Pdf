@@ -2,9 +2,14 @@ from __future__ import print_function
 from string import whitespace
 import sys
 from json import loads as _json_loads
+from json import load as _json_load
+from json import dump as _json_dump
 from reportlab.pdfgen import canvas
 import os.path
 from optparse import OptionParser
+
+if sys.version_info < 3:
+    input = raw_input
 
 UNKNOWN = '.'
 SUDOKU_SIZE = (9, 9)
@@ -109,6 +114,7 @@ class SudokuPageInfo(object):
         canvas.grid(xlist[::3], ylist[::3])
 
 def delete_whitespace(text):
+    print(repr(text))
     for dummy in whitespace:
         text = text.replace(dummy, '')
     return text
@@ -117,14 +123,12 @@ def get_entered_sudoku():
     sudoku_mat = []
     while len(sudoku_mat) != 9:
         in_text = input()
-        print(in_text)
-        in_text = delete_whitespace(in_text)
-        # in_text = delete_whitespace(input())
+        in_text = delete_whitespace(str(in_text))
         if len(in_text) == 0:
             continue
         else:
-            sudoku_mat.append([int(c) for c in in_text])
-    return Sudoku(sudoku_mat)
+            sudoku_mat.append([int(c) if c.isdigit() else c for c in in_text])
+    return sudoku_mat
 
 def get_option_parser():
     parser = OptionParser()
@@ -160,6 +164,12 @@ def get_option_parser():
         help=('answer_name is used in title of answer page like this:'
               'answer_name {number}')
     )
+    parser.add_option(
+        '--in',
+        action='store_true',
+        dest='_in',
+        help=('This is used for input in json file')
+    )
     return parser
 
 
@@ -172,12 +182,23 @@ def error(msg):
 def main():
     parser = get_option_parser()
     (options, filenames) = parser.parse_args()
-    show_page_number = not(bool(options.hidden_page_number))
-    show_title = not(bool(options.hidden_title))
+    print(options._in)
 
     if len(filenames) >= 3:
         error('Filenames are too many.')
 
+    if options._in:
+        filename = filenames[0]
+        with open(filename) as jf:
+            sudokus = _json_load(jf)
+        sudokus.append(get_entered_sudoku())
+        with open(filename, 'w') as jf:
+            _json_dump(sudokus, jf)
+        print('Done')
+    return
+
+    show_page_number = not(bool(options.hidden_page_number))
+    show_title = not(bool(options.hidden_title))
     if options.out_filename is None:
         out_filename = os.path.splitext(filenames[0])[0] + '.pdf'
     else:
