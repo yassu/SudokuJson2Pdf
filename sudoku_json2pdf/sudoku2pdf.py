@@ -1,4 +1,5 @@
 from __future__ import print_function
+from string import whitespace
 import sys
 from json import loads as _json_loads
 from reportlab.pdfgen import canvas
@@ -107,6 +108,23 @@ class SudokuPageInfo(object):
         canvas.setLineWidth(3)
         canvas.grid(xlist[::3], ylist[::3])
 
+def delete_whitespace(text):
+    for dummy in whitespace:
+        text = text.replace(dummy, '')
+    return text
+
+def get_entered_sudoku():
+    sudoku_mat = []
+    while len(sudoku_mat) != 9:
+        in_text = input()
+        print(in_text)
+        in_text = delete_whitespace(in_text)
+        # in_text = delete_whitespace(input())
+        if len(in_text) == 0:
+            continue
+        else:
+            sudoku_mat.append([int(c) for c in in_text])
+    return Sudoku(sudoku_mat)
 
 def get_option_parser():
     parser = OptionParser()
