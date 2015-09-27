@@ -8,7 +8,7 @@ from reportlab.pdfgen import canvas
 import os.path
 from optparse import OptionParser
 
-if sys.version_info < 3:
+if sys.version_info.major < 3:
     input = raw_input
 
 UNKNOWN = '.'
