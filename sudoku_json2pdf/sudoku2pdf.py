@@ -198,7 +198,7 @@ def main():
             sudokus = _json_load(jf)
         sudokus.append(get_entered_sudoku())
         with open(filename, 'w') as jf:
-            _json_dump(sudokus, jf)
+            _json_dump(sudokus, jf, indent=4)
         print('Done')
     return
 
