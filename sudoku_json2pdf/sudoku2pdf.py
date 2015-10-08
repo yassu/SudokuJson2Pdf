@@ -230,7 +230,7 @@ def main():
         try:
             with open(json_filename) as f:
                 sudokus = Sudoku.load(f)
-        except FileNotFoundError:
+        except IOError
             error('Filename {} is not found.'.format(json_filename))
         except ValueError:
             error('Illegal format')
@@ -248,7 +248,7 @@ def main():
         try:
             with open(prob_filename) as f:
                 prob_sudokus = Sudoku.load(f)
-        except FileNotFoundError:
+        except IOError:
             error('Filename {} is not found.'.format(prob_filename))
         except ValueError:
             error('Illegal format')
@@ -256,7 +256,7 @@ def main():
         try:
             with open(ques_filename) as f:
                 ques_sudokus = Sudoku.load(f)
-        except FileNotFoundError:
+        except IOError:
             error('Filename {} is not found'.format(ques_filename))
         except ValueError:
             error('Illegal format')
