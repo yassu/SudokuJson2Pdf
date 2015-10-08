@@ -2,6 +2,8 @@
 SudokuJson2Pdf
 ================
 
+.. image:: https://travis-ci.org/yassu/SudokuJson2Pdf.svg?branch=master
+
 This project provides a tool which converts json file of sudoku information to pdf.
 
 How to Install
