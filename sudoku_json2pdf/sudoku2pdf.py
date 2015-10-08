@@ -98,10 +98,10 @@ class SudokuPageInfo(object):
                 if self.sudoku.mat[y][x] != UNKNOWN:
                     canvas.drawString(
                         sudoku_offset[0] +
-                        (SUDOKU_FONT_SIZE + SUDOKU_XPAD) // 2
-                        + x * (2 * SUDOKU_XPAD + SUDOKU_FONT_SIZE) - 4,
-                        sudoku_offset[1] + SUDOKU_FONT_SIZE
-                        + y * (2 * SUDOKU_YPAD + SUDOKU_FONT_SIZE),
+                        (SUDOKU_FONT_SIZE + SUDOKU_XPAD) // 2 +
+                        x * (2 * SUDOKU_XPAD + SUDOKU_FONT_SIZE) - 4,
+                        sudoku_offset[1] + SUDOKU_FONT_SIZE +
+                        y * (2 * SUDOKU_YPAD + SUDOKU_FONT_SIZE),
                         str(self.sudoku.mat[y][x])
                     )
 
@@ -113,11 +113,13 @@ class SudokuPageInfo(object):
         canvas.setLineWidth(3)
         canvas.grid(xlist[::3], ylist[::3])
 
+
 def delete_whitespace(text):
     print(repr(text))
     for dummy in whitespace:
         text = text.replace(dummy, '')
     return text
+
 
 def get_entered_sudoku():
     sudoku_mat = []
@@ -127,13 +129,14 @@ def get_entered_sudoku():
         if len(in_text) == 0:
             continue
         elif not set(in_text).issubset(set(
-            ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.'])):
+                ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.'])):
             raise ValueError('This line includes illegal values.')
         elif len(in_text) != 9:
             raise ValueError('length of entered text is not 0 or 9.')
         else:
             sudoku_mat.append([int(c) if c.isdigit() else c for c in in_text])
     return sudoku_mat
+
 
 def get_option_parser():
     parser = OptionParser()
