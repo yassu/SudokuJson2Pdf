@@ -7,7 +7,7 @@ install:
     - pip install reportlab
 script:
     - "nosetests"
-    - "flake8 sudoku_json2pdf/*.py"
+    - "flake8 */*.py"
 notifications:
     email:
         - mathyassu@gmail.com
